@@ -14,22 +14,57 @@ package org.artofsolving.jodconverter.util;
 
 public class PlatformUtils {
 
-    private static final String OS_NAME = System.getProperty("os.name").toLowerCase();
-    
-    private PlatformUtils() {
-        throw new AssertionError("utility class must not be instantiated");
-    }
+	private static final String OS_NAME = System.getProperty("os.name").toLowerCase();
 
-    public static boolean isLinux() {
-        return OS_NAME.startsWith("linux");
-    }
+	private PlatformUtils() {
+		throw new AssertionError("utility class must not be instantiated");
+	}
 
-    public static boolean isMac() {
-        return OS_NAME.startsWith("mac");
-    }
+	public static boolean isLinux() {
+		return OS_NAME.startsWith("linux");
+	}
 
-    public static boolean isWindows() {
-        return OS_NAME.startsWith("windows");
-    }
+	public static boolean isMac() {
+		return OS_NAME.startsWith("mac");
+	}
+
+	public static boolean isWindows() {
+		return OS_NAME.startsWith("windows");
+	}
+
+	/**
+	 * @author : dmotta
+	 * @date : Jul 19, 2013
+	 * @description : TODO(dmotta) : insert description
+	 * @return : int TODO(dmotta)
+	 */
+	public static int firstNumericPosition(String cellName) {
+		int position = 0;
+		for (int y = 0; y < cellName.length(); y++) {
+			char result = cellName.charAt(y);
+			if (isInteger(result)) {
+				position = y;
+				System.out.println("position: " + position);
+				break;
+			}
+		}
+		return position;
+	}
+
+	/**
+	 * @author : dmotta
+	 * @date : Jul 19, 2013
+	 * @description : TODO(dmotta) : insert description
+	 * @return : boolean TODO(dmotta)
+	 */
+	public static boolean isInteger(char input) {
+		try {
+			Integer.parseInt(input + "");
+			return true;
+		}
+		catch (Exception e) {
+			return false;
+		}
+	}
 
 }

@@ -14,6 +14,8 @@ package org.artofsolving.jodconverter.cli;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Hashtable;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -28,8 +30,8 @@ import org.artofsolving.jodconverter.OfficeDocumentConverter;
 import org.artofsolving.jodconverter.document.DefaultDocumentFormatRegistry;
 import org.artofsolving.jodconverter.document.DocumentFormatRegistry;
 import org.artofsolving.jodconverter.document.JsonDocumentFormatRegistry;
-import org.artofsolving.jodconverter.office.OfficeManager;
 import org.artofsolving.jodconverter.office.DefaultOfficeManagerConfiguration;
+import org.artofsolving.jodconverter.office.OfficeManager;
 import org.json.JSONException;
 
 /**
@@ -109,13 +111,13 @@ public class Convert {
             if (outputFormat == null) {
                 File inputFile = new File(fileNames[0]);
                 File outputFile = new File(fileNames[1]);
-                converter.convert(inputFile, outputFile);
+                converter.convert(inputFile, outputFile, new Hashtable(),new ArrayList());
             } else {
                 for (int i = 0; i < fileNames.length; i++) {
                     File inputFile = new File(fileNames[i]);
                     String outputName = FilenameUtils.getBaseName(fileNames[i]) + "." + outputFormat;
                     File outputFile = new File(FilenameUtils.getFullPath(fileNames[i]) + outputName);
-                    converter.convert(inputFile, outputFile);
+                    converter.convert(inputFile, outputFile,new Hashtable(),new ArrayList());
                 }
             }
         } finally {

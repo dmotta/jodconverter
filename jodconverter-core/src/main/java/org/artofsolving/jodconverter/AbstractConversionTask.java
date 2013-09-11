@@ -18,7 +18,11 @@ import static org.artofsolving.jodconverter.office.OfficeUtils.toUnoProperties;
 import static org.artofsolving.jodconverter.office.OfficeUtils.toUrl;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.artofsolving.jodconverter.office.OfficeContext;
 import org.artofsolving.jodconverter.office.OfficeException;
@@ -34,13 +38,18 @@ import com.sun.star.util.CloseVetoException;
 import com.sun.star.util.XCloseable;
 
 public abstract class AbstractConversionTask implements OfficeTask {
-
+	
+	private final static Logger logger = Logger.getLogger(AbstractConversionTask.class .getName()); 
     private final File inputFile;
     private final File outputFile;
+    protected final Hashtable parameters;
+    protected final List<HashMap> data;    
 
-    public AbstractConversionTask(File inputFile, File outputFile) {
+    public AbstractConversionTask(File inputFile, File outputFile,Hashtable parameters,List<HashMap> data) {
         this.inputFile = inputFile;
         this.outputFile = outputFile;
+        this.parameters = parameters;
+        this.data= data;        
     }
 
     protected abstract Map<String,?> getLoadProperties(File inputFile);
@@ -48,11 +57,14 @@ public abstract class AbstractConversionTask implements OfficeTask {
     protected abstract Map<String,?> getStoreProperties(File outputFile, XComponent document);
 
     public void execute(OfficeContext context) throws OfficeException {
-        XComponent document = null;
+    	XComponent document = null;
         try {
             document = loadDocument(context, inputFile);
-            modifyDocument(document);
+            logger.info("=============>end loadDocument");
+            modifyDocument(document);            
+            logger.info("=============>end modifyDocument");
             storeDocument(document, outputFile);
+            logger.info("=============>end storeDocument");
         } catch (OfficeException officeException) {
             throw officeException;
         } catch (Exception exception) {

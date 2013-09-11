@@ -202,6 +202,7 @@ class OfficeProcess {
 
     public int forciblyTerminate(long retryInterval, long retryTimeout) throws IOException, RetryTimeoutException {
         logger.info(String.format("trying to forcibly terminate process: '" + unoUrl + "'" + (pid != PID_UNKNOWN ? " (pid " + pid  + ")" : "")));
+        logger.info(String.format("processManager.kill: " + processManager.getClass().getName() + " process " +process+" pid: "+pid ));
         processManager.kill(process, pid);
         return getExitCode(retryInterval, retryTimeout);
     }

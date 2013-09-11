@@ -14,6 +14,8 @@ package org.artofsolving.jodconverter;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
@@ -57,16 +59,16 @@ public class OfficeDocumentConverter {
         return formatRegistry;
     }
 
-    public void convert(File inputFile, File outputFile) throws OfficeException {
+    public void convert(File inputFile, File outputFile,Hashtable parameters,List<HashMap> data) throws OfficeException {
         String outputExtension = FilenameUtils.getExtension(outputFile.getName());
         DocumentFormat outputFormat = formatRegistry.getFormatByExtension(outputExtension);
-        convert(inputFile, outputFile, outputFormat);
+        convert(inputFile, outputFile,parameters,data, outputFormat);
     }
 
-    public void convert(File inputFile, File outputFile, DocumentFormat outputFormat) throws OfficeException {
+    public void convert(File inputFile, File outputFile, Hashtable parameters,List<HashMap> data, DocumentFormat outputFormat) throws OfficeException {
         String inputExtension = FilenameUtils.getExtension(inputFile.getName());
         DocumentFormat inputFormat = formatRegistry.getFormatByExtension(inputExtension);
-        StandardConversionTask conversionTask = new StandardConversionTask(inputFile, outputFile, outputFormat);
+        StandardConversionTask conversionTask = new StandardConversionTask(inputFile, outputFile,parameters,data, outputFormat);
         conversionTask.setDefaultLoadProperties(defaultLoadProperties);
         conversionTask.setInputFormat(inputFormat);
         officeManager.execute(conversionTask);

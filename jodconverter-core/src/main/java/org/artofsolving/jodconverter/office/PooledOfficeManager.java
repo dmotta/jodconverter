@@ -65,6 +65,7 @@ class PooledOfficeManager implements OfficeManager {
     public void execute(final OfficeTask task) throws OfficeException {
         Future<?> futureTask = taskExecutor.submit(new Runnable() {
             public void run() {
+            	logger.info("MaxTasksPerProcess: "+settings.getMaxTasksPerProcess()+ " MaxTasksPerProcess+1 "+(settings.getMaxTasksPerProcess() + 1)+" taskCount:"+taskCount);            	
                 if (settings.getMaxTasksPerProcess() > 0 && ++taskCount == settings.getMaxTasksPerProcess() + 1) {
                     logger.info(String.format("reached limit of %d maxTasksPerProcess: restarting", settings.getMaxTasksPerProcess()));
                     taskExecutor.setAvailable(false);
